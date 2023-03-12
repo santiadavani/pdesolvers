@@ -17,5 +17,6 @@ RUN echo "ubuntu ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/ubuntu
 USER ubuntu
 WORKDIR /home/ubuntu
 
+#Update
 CMD ["/bin/bash"]
 
