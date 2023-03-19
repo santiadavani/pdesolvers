@@ -24,11 +24,13 @@ ENV PATH="${PATH}:/usr/local/spack/bin"
 RUN spack install petsc@3.18.3 ~superlu-dist && \
     spack install py-petsc4py@3.18.3 
 
+RUN spack install fenics@2019.1.0.post0
 # Set the user as the default user for the container
 USER ubuntu
 ENV PATH="${PATH}:/usr/local/spack/bin"
 
 WORKDIR /home/ubuntu
 RUN echo "source /usr/local/spack/share/spack/setup-env.sh" >> /home/ubuntu/.bashrc
+RUN echo "spack load fenics" >> /home/ubuntu/.bashrc
 CMD ["/bin/bash"]
 

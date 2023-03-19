@@ -26,9 +26,10 @@ RUN spack install petsc@3.18.3 ~superlu-dist && \
 
 # Set the user as the default user for the container
 USER ubuntu
-ENV PATH="${PATH}:/usr/local/spack/bin"
 
+ENV PATH="${PATH}:/usr/local/spack/bin"
 WORKDIR /home/ubuntu
+#SHELL ["/bin/bash","-c","source /usr/local/spack/share/spack/setup-env.csh"]
 RUN echo "source /usr/local/spack/share/spack/setup-env.sh" >> /home/ubuntu/.bashrc
 CMD ["/bin/bash"]
 
