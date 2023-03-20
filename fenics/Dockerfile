@@ -13,24 +13,26 @@ RUN useradd -m -s /bin/bash ubuntu \
 RUN mkdir -p /etc/sudoers.d
 RUN echo "ubuntu ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/ubuntu
 
-# SPACK installation
-RUN cd /usr/local/ && \
+USER ubuntu
+WORKDIR /home/ubuntu
+
+RUN cd /home/ubuntu/ && \
     git clone -c feature.manyFiles=true https://github.com/spack/spack.git
 
-# Set PATH with spack
-ENV PATH="${PATH}:/usr/local/spack/bin"
+ENV PATH="${PATH}:/home/ubuntu/spack/bin"
 
-# Install petsc and py-petsc4py
 RUN spack install petsc@3.18.3 ~superlu-dist && \
     spack install py-petsc4py@3.18.3 
 
 RUN spack install fenics@2019.1.0.post0
-# Set the user as the default user for the container
-USER ubuntu
-ENV PATH="${PATH}:/usr/local/spack/bin"
 
-WORKDIR /home/ubuntu
-RUN echo "source /usr/local/spack/share/spack/setup-env.sh" >> /home/ubuntu/.bashrc
-RUN echo "spack load fenics" >> /home/ubuntu/.bashrc
-CMD ["/bin/bash"]
+RUN curl -fsSL https://code-server.dev/install.sh | sh
+
+RUN sudo apt update && \
+    sudo apt install xfce4 xfce4-goodies -y && \
+    sudo apt install xrdp -y && \
+    sudo service xrdp restart
+
+EXPOSE 3389
+
 
